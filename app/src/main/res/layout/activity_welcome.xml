@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.welcome.WelcomeActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v4.view.ViewPager>
+
+    <com.rd.PageIndicatorView
+        app:layout_constraintBottom_toTopOf="@+id/start_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:piv_viewPager="@id/pager"
+        app:piv_radius="6dp"
+        app:piv_padding="12dp"
+        app:piv_animationType="worm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/start_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dim_activity_welcome_start_btn"
+        android:layout_marginBottom="@dimen/dim_activity_welcome_start_btn"
+        android:background="@drawable/bg_start_btn"
+        android:minWidth="248dp"
+        android:text="@string/welcome_btn"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+</android.support.constraint.ConstraintLayout>
