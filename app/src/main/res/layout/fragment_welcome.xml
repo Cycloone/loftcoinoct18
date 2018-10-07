@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/dim_fragment_welcome_icon"
+        android:layout_height="@dimen/dim_fragment_welcome_icon"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2"
+        tools:src="@drawable/image_welcome_page_1"
+        android:contentDescription="@string/app_name"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_fragment_welcome_title"
+        android:layout_marginEnd="@dimen/dim_fragment_welcome_title"
+        android:layout_marginStart="@dimen/dim_fragment_welcome_title"
+        android:textColor="@color/primary_text_color"
+        android:textStyle="bold"
+        android:textSize="@dimen/fragment_welcome_title_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icon"
+        android:text="@string/welcome_title_1" />
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="@dimen/dim_fragment_welcome_subtitle"
+        android:layout_marginStart="@dimen/dim_fragment_welcome_subtitle"
+        android:textColor="@color/secondary_text_color"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textSize="@dimen/fragment_welcome_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        android:text="@string/welcome_subtitle_1" />
+
+</android.support.constraint.ConstraintLayout>
