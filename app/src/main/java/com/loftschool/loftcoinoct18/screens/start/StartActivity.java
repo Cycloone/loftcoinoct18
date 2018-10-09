@@ -7,14 +7,19 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.loftschool.loftcoinoct18.App;
 import com.loftschool.loftcoinoct18.R;
+import com.loftschool.loftcoinoct18.data.api.Api;
+import com.loftschool.loftcoinoct18.data.prefs.Prefs;
+import com.loftschool.loftcoinoct18.screens.main.MainActivity;
 import com.loftschool.loftcoinoct18.screens.welcome.WelcomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity implements StartView {
+    private StartPresenter presenter;
 
     @BindView(R.id.start_top_corner)
     ImageView start_top_corner;
@@ -30,7 +35,7 @@ public class StartActivity extends AppCompatActivity {
 
     Unbinder unbinder;
 
-    public static void start(Context context){
+    public static void start(Context context) {
         Intent starter = new Intent(context, StartActivity.class);
         starter.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(starter);
@@ -42,6 +47,25 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         unbinder = ButterKnife.bind(this);
+
+        Api api = ((App) getApplication()).getApi();
+        Prefs prefs = ((App) getApplication()).getPrefs();
+
+        presenter = new StartPresenterImpl(api, prefs);
+        presenter.attachView(this);
+
+        presenter.loadRate();
     }
 
+    @Override
+    protected void onDestroy() {
+        presenter.detachView();
+        super.onDestroy();
+    }
+
+    @Override
+    public void navigateToMainScreen() {
+        MainActivity.start(this);
+
+    }
 }
