@@ -36,7 +36,7 @@ public class StartPresenterImpl implements StartPresenter {
 
     @Override
     public void loadRate() {
-        api.ticker("array", "USD").enqueue(new Callback<RateResponse>() {
+        api.ticker("array",prefs.getFiatCurrency().name()).enqueue(new Callback<RateResponse>() {
             @Override
             public void onResponse(Call<RateResponse> call, Response<RateResponse> response) {
                 if(view != null){
