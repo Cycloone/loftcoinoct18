@@ -23,6 +23,8 @@
     <color name="grey_80">#191a2a</color>
     <color name="grey_100">#10101a</color>
 
-
+    <!--activity_main-->
+    <color name="color_bottom_navigation_icon">@color/primary_text_color</color>
+    <color name="color_bottom_navigation_text">@color/primary_text_color</color>
 
 </resources>
