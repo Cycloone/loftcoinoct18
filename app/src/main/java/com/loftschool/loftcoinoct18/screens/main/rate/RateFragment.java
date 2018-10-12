@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -56,16 +57,14 @@ public class RateFragment extends Fragment implements RateView {
 
         Activity activity = getActivity();
 
-        if(activity == null){
+        if (activity == null) {
             return;
         }
 
-        Api api = ((App)getActivity().getApplication()).getApi();
-        Prefs prefs = ((App)getActivity().getApplication()).getPrefs();
-        presenter = new RatePresenterImpl(api,prefs);
+        Api api = ((App) getActivity().getApplication()).getApi();
+        Prefs prefs = ((App) getActivity().getApplication()).getPrefs();
+        presenter = new RatePresenterImpl(api, prefs);
 
-
-        //check
         adapter = new RateAdapter(prefs);
         adapter.setHasStableIds(true);
     }
@@ -81,7 +80,7 @@ public class RateFragment extends Fragment implements RateView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
         rateToolbar.setTitle(R.string.rate_screen_title);
 
@@ -94,6 +93,14 @@ public class RateFragment extends Fragment implements RateView {
                 presenter.onRefresh();
             }
         });
+
+        presenter.attachView(this);
+        presenter.getRate();
+
+        rateRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rateRecycler.setHasFixedSize(true);
+        rateRecycler.setAdapter(adapter);
+
     }
 
     @Override
@@ -105,6 +112,7 @@ public class RateFragment extends Fragment implements RateView {
 
     @Override
     public void setCoins(List<Coin> coins) {
+        adapter.setCoins(coins);
 
     }
 

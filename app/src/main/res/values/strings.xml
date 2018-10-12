@@ -12,5 +12,7 @@
     <string name="menu_item_rate">Курс</string>
     <string name="menu_item_converter">Конвертер</string>
     <string name="rate_screen_title">Общий анализ</string>
+    <string name="rate_item_percent_change" translatable="false">%.2f%%</string>
+    <string name="currency_amount">%s %s</string>
 
 </resources>
