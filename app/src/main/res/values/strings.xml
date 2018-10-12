@@ -11,5 +11,6 @@
     <string name="menu_item_accounts">Кошельки</string>
     <string name="menu_item_rate">Курс</string>
     <string name="menu_item_converter">Конвертер</string>
+    <string name="rate_screen_title">Общий анализ</string>
 
 </resources>

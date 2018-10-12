@@ -11,4 +11,5 @@
     <string name="menu_item_accounts">Wallets</string>
     <string name="menu_item_rate">Rate</string>
     <string name="menu_item_converter">Converter</string>
+    <string name="rate_screen_title">General analysis</string>
 </resources>
