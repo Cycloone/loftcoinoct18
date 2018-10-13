@@ -23,13 +23,10 @@ import com.loftschool.loftcoinoct18.utils.CurrencyFormatter;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-//import java.util.Currency;
 
 public class RateAdapter extends RecyclerView.Adapter<RateAdapter.RateViewHolder> {
 
