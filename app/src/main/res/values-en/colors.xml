@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="rate_item_background_event">#191a2a</color>
+    <color name="rate_item_background_add">@color/colorPrimary</color>
+    <color name="percent_change_up">@color/green</color>
+    <color name="percent_change_down">@color/red_accent200</color>
+</resources>
