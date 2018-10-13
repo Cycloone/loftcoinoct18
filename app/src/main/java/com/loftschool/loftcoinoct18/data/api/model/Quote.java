@@ -8,7 +8,7 @@ public class Quote {
     @SerializedName("percent_change_1h")
     public float percentChange1h;
 
-    @SerializedName("persent_change_24h")
+    @SerializedName("percent_change_24h")
     public float percentChange24h;
 
     @SerializedName("percent_change_7d")
