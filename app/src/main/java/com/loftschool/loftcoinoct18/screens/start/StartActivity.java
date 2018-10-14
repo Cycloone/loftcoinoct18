@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.loftschool.loftcoinoct18.App;
 import com.loftschool.loftcoinoct18.R;
 import com.loftschool.loftcoinoct18.data.api.Api;
+import com.loftschool.loftcoinoct18.data.db.Database;
+import com.loftschool.loftcoinoct18.data.db.model.CoinEntityMapper;
 import com.loftschool.loftcoinoct18.data.prefs.Prefs;
 import com.loftschool.loftcoinoct18.screens.main.MainActivity;
 import com.loftschool.loftcoinoct18.screens.welcome.WelcomeActivity;
@@ -54,8 +56,10 @@ public class StartActivity extends AppCompatActivity implements StartView {
 
         Api api = ((App) getApplication()).getApi();
         Prefs prefs = ((App) getApplication()).getPrefs();
+        Database database = ((App) getApplication()).getDatabase();
+        CoinEntityMapper mapper = new CoinEntityMapper();
 
-        presenter = new StartPresenterImpl(api, prefs);
+        presenter = new StartPresenterImpl(api, prefs, database, mapper);
         presenter.attachView(this);
 
         presenter.loadRate();
