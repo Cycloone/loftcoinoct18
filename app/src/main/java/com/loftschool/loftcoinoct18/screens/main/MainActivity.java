@@ -2,17 +2,16 @@ package com.loftschool.loftcoinoct18.screens.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.loftschool.loftcoinoct18.R;
 import com.loftschool.loftcoinoct18.screens.main.rate.RateFragment;
-import com.loftschool.loftcoinoct18.screens.start.StartActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
