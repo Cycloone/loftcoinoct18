@@ -12,7 +12,6 @@ public class DatabaseInitializer {
         AppDatabase appDatabase = Room
                 .databaseBuilder(context, AppDatabase.class, "LoftCoin.db")
                 .fallbackToDestructiveMigration()
-                .allowMainThreadQueries()
                 .build();
 
         return new DatabaseRoomImpl(appDatabase);
