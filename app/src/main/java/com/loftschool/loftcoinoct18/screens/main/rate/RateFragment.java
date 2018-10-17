@@ -26,6 +26,7 @@ import com.loftschool.loftcoinoct18.data.db.model.CoinEntityMapper;
 import com.loftschool.loftcoinoct18.data.prefs.Prefs;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,6 +101,10 @@ public class RateFragment extends Fragment implements RateView {
             }
         });
 
+        if (savedInstanceState != null){
+            layoutManagerState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
+        }
+
         presenter.attachView(this);
         presenter.getRate();
 
@@ -107,6 +112,12 @@ public class RateFragment extends Fragment implements RateView {
         rateRecycler.setHasFixedSize(true);
         rateRecycler.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(LAYOUT_MANAGER_STATE, Objects.requireNonNull(rateRecycler.getLayoutManager()).onSaveInstanceState());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -119,6 +130,11 @@ public class RateFragment extends Fragment implements RateView {
     @Override
     public void setCoins(List<CoinEntity> coins) {
         adapter.setCoins(coins);
+
+        if (layoutManagerState != null){
+            Objects.requireNonNull(rateRecycler.getLayoutManager()).onRestoreInstanceState(layoutManagerState);
+            layoutManagerState = null;
+        }
 
     }
 

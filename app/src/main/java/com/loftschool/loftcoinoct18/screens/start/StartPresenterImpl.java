@@ -3,6 +3,7 @@ package com.loftschool.loftcoinoct18.screens.start;
 import android.support.annotation.Nullable;
 
 import com.loftschool.loftcoinoct18.data.api.Api;
+import com.loftschool.loftcoinoct18.data.api.model.Coin;
 import com.loftschool.loftcoinoct18.data.db.Database;
 import com.loftschool.loftcoinoct18.data.db.model.CoinEntity;
 import com.loftschool.loftcoinoct18.data.db.model.CoinEntityMapper;
@@ -10,12 +11,9 @@ import com.loftschool.loftcoinoct18.data.prefs.Prefs;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class StartPresenterImpl implements StartPresenter {
@@ -51,21 +49,24 @@ public class StartPresenterImpl implements StartPresenter {
     public void loadRate() {
         Disposable disposable = api.ticker("array", prefs.getFiatCurrency().name())
                 .subscribeOn(Schedulers.io())
-                .map(rateResponse -> rateResponse.data)
-                .map(coins -> mapper.mapCoins(coins))
-                .flatMap((Function<List<CoinEntity>, ObservableSource<Boolean>>) coinEntities -> {
+                .map(rateResponse -> {
+                    List<Coin> coins = rateResponse.data;
+                    List<CoinEntity> coinEntities = mapper.mapCoins(coins);
                     database.saveCoins(coinEntities);
-                    return Observable.just(true);
+                    return coinEntities;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> {
-                    if (aBoolean && view != null) {
-                        view.navigateToMainScreen();
-                    }
+                .subscribe(
+                        coinEntities -> {
+                            if (view != null) {
+                                view.navigateToMainScreen();
+                            }
+                        },
+                        throwable -> {
 
-                }, throwable -> {
+                        }
+                );
 
-                });
 
         disposables.add(disposable);
 
