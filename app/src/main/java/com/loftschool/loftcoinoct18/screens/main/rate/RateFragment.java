@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -23,6 +24,7 @@ import com.loftschool.loftcoinoct18.data.api.model.Coin;
 import com.loftschool.loftcoinoct18.data.db.Database;
 import com.loftschool.loftcoinoct18.data.db.model.CoinEntity;
 import com.loftschool.loftcoinoct18.data.db.model.CoinEntityMapper;
+import com.loftschool.loftcoinoct18.data.model.Fiat;
 import com.loftschool.loftcoinoct18.data.prefs.Prefs;
 
 import java.util.List;
@@ -33,7 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class RateFragment extends Fragment implements RateView {
+public class RateFragment extends Fragment implements RateView, Toolbar.OnMenuItemClickListener, CurrencyDialog.CurrencyDialogListener {
 
     public static final String TAG = "RateFragment";
     public static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
@@ -46,6 +48,9 @@ public class RateFragment extends Fragment implements RateView {
     SwipeRefreshLayout rateRefresh;
     @BindView(R.id.rate_content)
     FrameLayout rateContent;
+    @BindView(R.id.progress)
+    ViewGroup progress;
+
     Unbinder unbinder;
 
     private RatePresenter presenter;
@@ -91,6 +96,9 @@ public class RateFragment extends Fragment implements RateView {
 
         rateToolbar.setTitle(R.string.rate_screen_title);
 
+        rateToolbar.inflateMenu(R.menu.menu_rate);
+        rateToolbar.setOnMenuItemClickListener(this);
+
         presenter.attachView(this);
         presenter.getRate();
 
@@ -101,8 +109,14 @@ public class RateFragment extends Fragment implements RateView {
             }
         });
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             layoutManagerState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
+        }
+
+        Fragment fragment = Objects.requireNonNull(getFragmentManager()).findFragmentByTag(CurrencyDialog.TAG);
+
+        if (fragment != null) {
+            ((CurrencyDialog) fragment).setListener(this);
         }
 
         presenter.attachView(this);
@@ -131,7 +145,7 @@ public class RateFragment extends Fragment implements RateView {
     public void setCoins(List<CoinEntity> coins) {
         adapter.setCoins(coins);
 
-        if (layoutManagerState != null){
+        if (layoutManagerState != null) {
             Objects.requireNonNull(rateRecycler.getLayoutManager()).onRestoreInstanceState(layoutManagerState);
             layoutManagerState = null;
         }
@@ -146,6 +160,33 @@ public class RateFragment extends Fragment implements RateView {
 
     @Override
     public void showCurrencyDialog() {
+        CurrencyDialog dialog = new CurrencyDialog();
+        dialog.setListener(this);
+        dialog.show(Objects.requireNonNull(getFragmentManager()), CurrencyDialog.TAG);
 
+    }
+
+    @Override
+    public void showProgress() {
+        progress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.menu_item_currency:
+                presenter.onMenuItemCurrencyClick();
+        }
+        return false;
+    }
+
+    @Override
+    public void onCurrencySelected(Fiat currency) {
+        presenter.onFiatCurrencySelected(currency);
     }
 }
