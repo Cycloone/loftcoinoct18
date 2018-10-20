@@ -5,7 +5,10 @@ import android.support.annotation.Nullable;
 import com.loftschool.loftcoinoct18.data.api.Api;
 import com.loftschool.loftcoinoct18.data.db.Database;
 import com.loftschool.loftcoinoct18.data.db.model.CoinEntityMapper;
+import com.loftschool.loftcoinoct18.data.model.Fiat;
 import com.loftschool.loftcoinoct18.data.prefs.Prefs;
+
+import java.util.Objects;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -59,12 +62,17 @@ public class RatePresenterImpl implements RatePresenter {
                         }
                 );
 
-
         disposables.add(disposable);
 
     }
 
-    private void loadRate() {
+    private void loadRate(Boolean fromRefresh) {
+
+        if (!fromRefresh) {
+            if (view != null) {
+                view.showProgress();
+            }
+        }
         Disposable disposable = api.ticker("array", prefs.getFiatCurrency().name())
                 .subscribeOn(Schedulers.io())
                 .map(rateResponse -> mapper.mapCoins(rateResponse.data))
@@ -76,16 +84,21 @@ public class RatePresenterImpl implements RatePresenter {
                 .subscribe(
                         object -> {
                             if (view != null) {
-                                view.setRefreshing(false);
+                                if (fromRefresh) {
+                                    view.setRefreshing(false);
+                                } else {
+                                    view.hideProgress();
+                                }
                             }
                         },
                         throwable -> {
-                            if (view != null) {
+                            if (fromRefresh) {
                                 view.setRefreshing(false);
+                            } else {
+                                view.hideProgress();
                             }
                         }
                 );
-
 
         disposables.add(disposable);
 
@@ -94,6 +107,18 @@ public class RatePresenterImpl implements RatePresenter {
 
     @Override
     public void onRefresh() {
-        loadRate();
+        loadRate(true);
+    }
+
+    @Override
+    public void onMenuItemCurrencyClick() {
+        Objects.requireNonNull(view).showCurrencyDialog();
+
+    }
+
+    @Override
+    public void onFiatCurrencySelected(Fiat currency) {
+        prefs.setFiatCurrency(currency);
+        loadRate(false);
     }
 }

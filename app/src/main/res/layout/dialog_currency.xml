@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/grey_50"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dim_dialog_currency_layout_paddings"
+        android:paddingEnd="@dimen/dim_dialog_currency_layout_paddings"
+        android:text="@string/menu_currency_select"
+        android:textColor="@color/primary_text_color" />
+
+    <LinearLayout
+        android:id="@+id/usd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_dialog_currency_linearLayout_height"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dim_dialog_currency_layout_paddings"
+        android:paddingEnd="@dimen/dim_dialog_currency_layout_paddings">
+
+        <TextView
+            android:layout_width="@dimen/dim_dialog_currency_textView_width_height"
+            android:layout_height="@dimen/dim_dialog_currency_textView_width_height"
+            android:background="@drawable/bg_coin_symbol_trasparent"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="@string/sign_dollar"
+            android:textColor="@color/primary_text_color"
+            android:textSize="@dimen/dim_dialog_currency_textView_textSize" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dim_dialog_currency_textView_marginStart"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/dialog_currency_dollar_usd"
+            android:textColor="@color/primary_text_color"
+            android:textSize="@dimen/dim_dialog_currency_textView_textSize" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/eur"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_dialog_currency_linearLayout_height"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dim_dialog_currency_layout_paddings"
+        android:paddingEnd="@dimen/dim_dialog_currency_layout_paddings">
+
+        <TextView
+            android:layout_width="@dimen/dim_dialog_currency_textView_width_height"
+            android:layout_height="@dimen/dim_dialog_currency_textView_width_height"
+            android:background="@drawable/bg_coin_symbol_trasparent"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="@string/sign_euro"
+            android:textColor="@color/primary_text_color"
+            android:textSize="@dimen/dim_dialog_currency_textView_textSize" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dim_dialog_currency_textView_marginStart"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/dialog_currency_euro_eur"
+            android:textColor="@color/primary_text_color"
+            android:textSize="@dimen/dim_dialog_currency_textView_textSize" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rub"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_dialog_currency_linearLayout_height"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dim_dialog_currency_layout_paddings"
+        android:paddingEnd="@dimen/dim_dialog_currency_layout_paddings">
+
+        <TextView
+            android:layout_width="@dimen/dim_dialog_currency_textView_width_height"
+            android:layout_height="@dimen/dim_dialog_currency_textView_width_height"
+            android:background="@drawable/bg_coin_symbol_trasparent"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="@string/sign_ruble"
+            android:textColor="@color/primary_text_color"
+            android:textSize="@dimen/dim_dialog_currency_textView_textSize" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dim_dialog_currency_textView_marginStart"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/dialog_currency_rouble_rub"
+            android:textColor="@color/primary_text_color"
+            android:textSize="@dimen/dim_dialog_currency_textView_textSize" />
+
+    </LinearLayout>
+</LinearLayout>
