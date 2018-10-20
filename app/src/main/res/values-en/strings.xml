@@ -11,6 +11,7 @@
     <string name="menu_item_accounts">Wallets</string>
     <string name="menu_item_rate">Rate</string>
     <string name="menu_item_converter">Converter</string>
+    <string name="bottom_navigation_item_converter">@string/menu_item_converter</string>
     <string name="rate_screen_title">General analysis</string>
     <string name="currency_amount">%s %s</string>
     <string name="menu_currency_select">Select the currency</string>

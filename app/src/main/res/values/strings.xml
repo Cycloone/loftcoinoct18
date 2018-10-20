@@ -11,6 +11,7 @@
     <string name="menu_item_accounts">Кошельки</string>
     <string name="menu_item_rate">Курс</string>
     <string name="menu_item_converter">Конвертер</string>
+    <string name="bottom_navigation_item_converter">@string/menu_item_converter</string>
     <string name="rate_screen_title">Общий анализ</string>
     <string name="rate_item_percent_change" translatable="false">%.2f%%</string>
     <string name="currency_amount">%s %s</string>
@@ -21,5 +22,6 @@
     <string name="dialog_currency_dollar_usd">Dollar | USD</string>
     <string name="dialog_currency_euro_eur">Euro | EUR</string>
     <string name="dialog_currency_rouble_rub">Rouble | RUB</string>
+
 
 </resources>
