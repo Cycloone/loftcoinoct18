@@ -18,6 +18,9 @@ import io.reactivex.subjects.PublishSubject;
 
 public class ConverterViewModelImpl implements ConverterViewModel {
 
+    private static final String KEY_SOURCE_CURRENCY = "source_currency";
+    private static final String KEY_DESTINATION_CURRENCY = "destination_currency";
+
     private BehaviorSubject<String> sourceCurrency = BehaviorSubject.create();
     private BehaviorSubject<String> destinationCurrency = BehaviorSubject.create();
     private BehaviorSubject<String> destinationAmount = BehaviorSubject.create();
@@ -40,6 +43,10 @@ public class ConverterViewModelImpl implements ConverterViewModel {
 
     public ConverterViewModelImpl(Bundle savedInstanceState, Database database) {
         this.database = database;
+        if (savedInstanceState != null) {
+            sourceCurrencySymbol = savedInstanceState.getString(KEY_SOURCE_CURRENCY);
+            destinationCurrencySymbol = savedInstanceState.getString(KEY_DESTINATION_CURRENCY);
+        }
 
         loadCoins();
     }
@@ -92,9 +99,7 @@ public class ConverterViewModelImpl implements ConverterViewModel {
     @Override
     public void onSourceAmountChange(String amount) {
         sourceAmountValue = amount;
-
         convert();
-
     }
 
     private void convert() {
@@ -116,12 +121,12 @@ public class ConverterViewModelImpl implements ConverterViewModel {
 
     @Override
     public void onSourceCurrencyClick() {
-
+        selectSourceCurrency.onNext(new Object());
     }
 
     @Override
     public void onDestinationCurrencyClick() {
-
+        selectDestinationCurrency.onNext(new Object());
     }
 
     @Override
@@ -130,7 +135,6 @@ public class ConverterViewModelImpl implements ConverterViewModel {
         sourceCurrencySymbol = coin.symbol;
         sourceCurrency.onNext(coin.symbol);
         convert();
-
     }
 
     @Override
@@ -139,11 +143,11 @@ public class ConverterViewModelImpl implements ConverterViewModel {
         destinationCurrencySymbol = coin.symbol;
         destinationCurrency.onNext(coin.symbol);
         convert();
-
     }
 
     @Override
     public void saveState(Bundle outState) {
-
+        outState.putString(KEY_SOURCE_CURRENCY, sourceCurrencySymbol);
+        outState.putString(KEY_DESTINATION_CURRENCY, destinationCurrencySymbol);
     }
 }

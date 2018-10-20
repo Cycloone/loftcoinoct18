@@ -19,7 +19,10 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.loftschool.loftcoinoct18.App;
 import com.loftschool.loftcoinoct18.R;
 import com.loftschool.loftcoinoct18.data.db.Database;
+import com.loftschool.loftcoinoct18.data.db.model.CoinEntity;
 import com.loftschool.loftcoinoct18.data.model.Currency;
+import com.loftschool.loftcoinoct18.screens.currencies.CurrenciesBottomSheet;
+import com.loftschool.loftcoinoct18.screens.currencies.CurrenciesBottomSheetListener;
 
 import java.util.Random;
 
@@ -101,33 +104,42 @@ public class ConverterFragment extends Fragment {
         destinationCurrencySymbolIcon = destinationCurrency.findViewById(R.id.symbol_icon);
         destinationCurrencySymbolName = destinationCurrency.findViewById(R.id.currency_name);
 
+        if (savedInstanceState == null) {
+            sourceAmount.setText("1");
+        }
+
+        Fragment bottomSheetSource = getFragmentManager().findFragmentByTag(SOURCE_CURRENCY_BOTTOM_SHEET_TAG);
+        if (bottomSheetSource != null) {
+            ((CurrenciesBottomSheet) bottomSheetSource).setListener(sourceListener);
+        }
+
+        Fragment bottomSheetDestination = getFragmentManager().findFragmentByTag(DESTINATION_CURRENCY_BOTTOM_SHEET_TAG);
+        if (bottomSheetDestination != null) {
+            ((CurrenciesBottomSheet) bottomSheetDestination).setListener(destinationListener);
+        }
+
+
         initOutputs();
         initInputs();
 
     }
 
-//        if (savedInstanceState == null){
-//            sourceAmount.setText("1");
-//        }
-//
-//        Fragment bottomSheetSource = getFragmentManager().findFragmentByTag(SOURCE_CURRENCY_BOTTOM_SHEET_TAG);
-//        if (bottomSheetSource != null){
-//            ((CurrenciesBottomSheet) bottomSheetSource).setListener(sourceListener);
-//        }
-//
-//        Fragment bottomSheetDestination = getFragmentManager().findFragmentByTag(DESTINATION_CURRENCY_BOTTOM_SHEET_TAG);
-//        if (bottomSheetDestination != null){
-//            ((CurrenciesBottomSheet) bottomSheetDestination).setListener(destinationListener);
-//        }
-//
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        viewModel.saveState(outState);
+        super.onSaveInstanceState(outState);
+    }
 
-    //
-//    }
-//
     private void initOutputs() {
         Disposable disposable1 = RxTextView.afterTextChangeEvents(sourceAmount).subscribe(textViewAfterTextChangeEvent ->
                 viewModel.onSourceAmountChange(textViewAfterTextChangeEvent.editable().toString())
         );
+
+        sourceCurrency.setOnClickListener(v ->
+                viewModel.onDestinationCurrencyClick());
+
+        destinationCurrency.setOnClickListener(v ->
+                viewModel.onDestinationCurrencyClick());
 
         disposables.add(disposable1);
     }
@@ -145,10 +157,46 @@ public class ConverterFragment extends Fragment {
         Disposable disposable3 = viewModel.destinationAmount().subscribe(s ->
                 destinationAmount.setText(s));
 
+        Disposable disposable4 = viewModel.selectSourceCurrency().subscribe(o ->
+                showCurrenciesBottomSheet(true)
+        );
+
+        Disposable disposable5 = viewModel.selectDestinationCurrency().subscribe(o ->
+                showCurrenciesBottomSheet(false)
+        );
+
         disposables.add(disposable1);
         disposables.add(disposable2);
         disposables.add(disposable3);
+        disposables.add(disposable4);
+        disposables.add(disposable5);
     }
+
+    private void showCurrenciesBottomSheet(boolean source) {
+        CurrenciesBottomSheet bottomSheet = new CurrenciesBottomSheet();
+
+        if (source) {
+            bottomSheet.show(getFragmentManager(), SOURCE_CURRENCY_BOTTOM_SHEET_TAG);
+            bottomSheet.setListener(sourceListener);
+        } else {
+            bottomSheet.show(getFragmentManager(), DESTINATION_CURRENCY_BOTTOM_SHEET_TAG);
+            bottomSheet.setListener(destinationListener);
+        }
+    }
+
+    private CurrenciesBottomSheetListener sourceListener = new CurrenciesBottomSheetListener() {
+        @Override
+        public void onCurrencySelected(CoinEntity coin) {
+            viewModel.onSourceCurrencySelected(coin);
+        }
+    };
+
+    private CurrenciesBottomSheetListener destinationListener = new CurrenciesBottomSheetListener() {
+        @Override
+        public void onCurrencySelected(CoinEntity coin) {
+            viewModel.onDestinationCurrencySelected(coin);
+        }
+    };
 
     private void bindCurrency(String curr, ImageView symbolIcon, TextView symbolText, TextView currencyName) {
         Currency currency = Currency.getCurrency(curr);
