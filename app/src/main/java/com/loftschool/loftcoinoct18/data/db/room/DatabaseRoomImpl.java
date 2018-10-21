@@ -2,6 +2,7 @@ package com.loftschool.loftcoinoct18.data.db.room;
 
 import com.loftschool.loftcoinoct18.data.db.Database;
 import com.loftschool.loftcoinoct18.data.db.model.CoinEntity;
+import com.loftschool.loftcoinoct18.data.db.model.Wallet;
 
 import java.util.List;
 
@@ -18,6 +19,11 @@ public class DatabaseRoomImpl implements Database {
     @Override
     public void saveCoins(List<CoinEntity> coins) {
         database.coinDao().saveCoins(coins);
+    }
+
+    @Override
+    public void saveWallet(Wallet wallet) {
+        database.walletDao().saveWallet(wallet);
     }
 
     @Override

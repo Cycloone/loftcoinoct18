@@ -26,7 +26,6 @@ import butterknife.Unbinder;
 
 public class WalletsFragment extends Fragment implements CurrenciesBottomSheetListener {
 
-
     private WalletsViewModel viewModel;
 
     @BindView(R.id.wallets_toolbar)
@@ -59,6 +58,11 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
         walletsToolbar.setTitle(R.string.wallets_screen_title);
         walletsToolbar.inflateMenu(R.menu.menu_wallets);
 
+        Fragment bottomSheet= getFragmentManager().findFragmentByTag(CurrenciesBottomSheet.TAG);
+        if (bottomSheet != null) {
+            ((CurrenciesBottomSheet) bottomSheet).setListener(this);
+        }
+
         initInputs();
         initOutputs();
     }
@@ -87,7 +91,7 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
 
     @Override
     public void onCurrencySelected(CoinEntity coin) {
-
+        viewModel.onCurrencySelected(coin);
     }
 
     @Override
