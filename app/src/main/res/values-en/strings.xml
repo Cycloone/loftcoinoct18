@@ -22,5 +22,8 @@
     <string name="dialog_currency_euro_eur">Euro | EUR</string>
     <string name="dialog_currency_rouble_rub">Rouble | RUB</string>
     <string name="currencies_bottom_sheet_currency_name">%s | %s</string>
+    <string name="wallets_menu_item_new_wallet">New wallet</string>
+
+    <string name="wallets_screen_title">Wallets</string>
 
 </resources>

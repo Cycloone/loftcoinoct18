@@ -136,7 +136,7 @@ public class ConverterFragment extends Fragment {
         );
 
         sourceCurrency.setOnClickListener(v ->
-                viewModel.onDestinationCurrencyClick());
+                viewModel.onSourceCurrencyClick());
 
         destinationCurrency.setOnClickListener(v ->
                 viewModel.onDestinationCurrencyClick());

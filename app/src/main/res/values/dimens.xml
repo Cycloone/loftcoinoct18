@@ -13,4 +13,7 @@
     <dimen name="dim_dialog_currency_textView_textSize">14sp</dimen>
     <dimen name="dim_dialog_currency_layout_paddings">16dp</dimen>
     <dimen name="dim_dialog_currency_textView_marginStart">20dp</dimen>
+    <dimen name="dim_item_wallet_frame_layout_size">20dp</dimen>
+    <dimen name="item_wallet_width">240dp</dimen>
+    <dimen name="item_wallet_margin">20dp</dimen>
 </resources>

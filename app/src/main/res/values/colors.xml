@@ -31,5 +31,6 @@
     <color name="rate_item_background_add">#19192a</color>
     <color name="percent_change_up">#3de77b</color>
     <color name="percent_change_down">#ff4464</color>
+    <color name="item_wallet_textview_textcolor">#000000</color>
 
 </resources>
