@@ -71,7 +71,7 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
         int screenWidth = getScreenWidth();
         int walletItemWidth = getResources().getDimensionPixelOffset(R.dimen.item_wallet_width);
         int walletItemMargin = getResources().getDimensionPixelOffset(R.dimen.item_wallet_margin);
-        int pageMargin = (screenWidth - walletItemMargin) - walletItemMargin;
+        int pageMargin = (screenWidth - walletItemWidth) - walletItemMargin;
 
 
         walletsPager.setAdapter(walletsPagerAdapter);
