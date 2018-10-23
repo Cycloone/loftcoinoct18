@@ -135,6 +135,13 @@ public class WalletsViewModelImpl extends WalletsViewModel {
     }
 
     @Override
+    public void onWalletChanged(int position) {
+        Wallet wallet = walletsItems.getValue().get(position).wallet;
+        getTransaction(wallet.walletId);
+    }
+
+
+    @Override
     public LiveData<Object> selectCurrency() {
         return selectCurrency;
     }
@@ -155,7 +162,7 @@ public class WalletsViewModelImpl extends WalletsViewModel {
     }
 
     @Override
-    public LiveData<List<TransactionModel>> transactions(){
+    public LiveData<List<TransactionModel>> transactions() {
         return transactionsItems;
     }
 }
