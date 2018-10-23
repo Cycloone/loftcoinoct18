@@ -120,7 +120,7 @@ public class WalletsPagerAdapter extends PagerAdapter {
         }
 
         private void bindCurrency(WalletModel model) {
-            Currency currency = Currency.getCurrency(model.coin.symbol);
+             currency.setText(model.coin.symbol);
         }
 
         private void bindSymbol(WalletModel model) {
