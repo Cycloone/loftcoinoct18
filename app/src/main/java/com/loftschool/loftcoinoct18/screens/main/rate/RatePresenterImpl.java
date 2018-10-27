@@ -21,7 +21,8 @@ public class RatePresenterImpl implements RatePresenter {
 
     private Api api;
     private Prefs prefs;
-    private Database database;
+    private Database mainDatabase;
+    private Database workerDatabase;
     private CoinEntityMapper mapper;
 
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -29,28 +30,30 @@ public class RatePresenterImpl implements RatePresenter {
     @Nullable
     private RateView view;
 
-    public RatePresenterImpl(Api api, Prefs prefs, Database database, CoinEntityMapper mapper) {
+    public RatePresenterImpl(Api api, Prefs prefs, Database mainDatabase, Database workerDatabase, CoinEntityMapper mapper) {
         this.api = api;
         this.prefs = prefs;
-        this.database = database;
+        this.mainDatabase = mainDatabase;
+        this.workerDatabase = workerDatabase;
         this.mapper = mapper;
     }
 
     @Override
     public void attachView(RateView view) {
         this.view = view;
+        mainDatabase.openRealm();
     }
 
     @Override
     public void detachView() {
+        mainDatabase.closeRealm();
         disposables.dispose();
         this.view = null;
     }
 
     @Override
     public void getRate() {
-        Disposable disposable = database.getCoins()
-                .observeOn(AndroidSchedulers.mainThread())
+        Disposable disposable = mainDatabase.getCoins()
                 .subscribe(
                         coinEntities -> {
                             if (view != null) {
@@ -77,7 +80,9 @@ public class RatePresenterImpl implements RatePresenter {
                 .subscribeOn(Schedulers.io())
                 .map(rateResponse -> mapper.mapCoins(rateResponse.data))
                 .map(coinEntities -> {
-                    database.saveCoins(coinEntities);
+                    workerDatabase.openRealm();
+                    workerDatabase.saveCoins(coinEntities);
+                    workerDatabase.closeRealm();
                     return new Object();
                 })
                 .observeOn(AndroidSchedulers.mainThread())
