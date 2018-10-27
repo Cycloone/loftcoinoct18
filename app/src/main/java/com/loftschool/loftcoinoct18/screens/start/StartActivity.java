@@ -5,8 +5,8 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,7 +18,6 @@ import com.loftschool.loftcoinoct18.data.db.Database;
 import com.loftschool.loftcoinoct18.data.db.model.CoinEntityMapper;
 import com.loftschool.loftcoinoct18.data.prefs.Prefs;
 import com.loftschool.loftcoinoct18.screens.main.MainActivity;
-import com.loftschool.loftcoinoct18.screens.welcome.WelcomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,13 +72,13 @@ public class StartActivity extends AppCompatActivity implements StartView {
     }
 
     private void startAnimations() {
-        ObjectAnimator innerAnimator = ObjectAnimator.ofFloat(start_top_corner, "rotation",0,360);
+        ObjectAnimator innerAnimator = ObjectAnimator.ofFloat(start_top_corner, "rotation", 0, 360);
         innerAnimator.setDuration(30000);
         innerAnimator.setRepeatMode(ValueAnimator.RESTART);
         innerAnimator.setRepeatCount(ValueAnimator.INFINITE);
         innerAnimator.setInterpolator(new LinearInterpolator());
 
-        ObjectAnimator outerAnimator = ObjectAnimator.ofFloat(start_bottom_corner, "rotation",0,-360);
+        ObjectAnimator outerAnimator = ObjectAnimator.ofFloat(start_bottom_corner, "rotation", 0, -360);
         outerAnimator.setDuration(60000);
         outerAnimator.setRepeatMode(ValueAnimator.RESTART);
         outerAnimator.setRepeatCount(ValueAnimator.INFINITE);

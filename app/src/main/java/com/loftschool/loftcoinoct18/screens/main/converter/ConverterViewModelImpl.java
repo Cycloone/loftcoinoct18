@@ -43,6 +43,8 @@ public class ConverterViewModelImpl implements ConverterViewModel {
 
     public ConverterViewModelImpl(Bundle savedInstanceState, Database database) {
         this.database = database;
+        database.openRealm();
+
         if (savedInstanceState != null) {
             sourceCurrencySymbol = savedInstanceState.getString(KEY_SOURCE_CURRENCY);
             destinationCurrencySymbol = savedInstanceState.getString(KEY_DESTINATION_CURRENCY);
@@ -53,15 +55,11 @@ public class ConverterViewModelImpl implements ConverterViewModel {
 
     private void loadCoins() {
         Disposable disposable1 = Observable.fromCallable((Callable<CoinEntity>) () -> database.getCoin(sourceCurrencySymbol))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(coinEntity -> {
                     onSourceCurrencySelected(coinEntity);
                 });
 
         Disposable disposable2 = Observable.fromCallable((Callable<CoinEntity>) () -> database.getCoin(destinationCurrencySymbol))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(coinEntity -> {
                     onDestinationCurrencySelected(coinEntity);
                 });
@@ -149,5 +147,10 @@ public class ConverterViewModelImpl implements ConverterViewModel {
     public void saveState(Bundle outState) {
         outState.putString(KEY_SOURCE_CURRENCY, sourceCurrencySymbol);
         outState.putString(KEY_DESTINATION_CURRENCY, destinationCurrencySymbol);
+    }
+
+    @Override
+    public void onDetach() {
+        database.closeRealm();
     }
 }

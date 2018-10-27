@@ -52,7 +52,11 @@ public class StartPresenterImpl implements StartPresenter {
                 .map(rateResponse -> {
                     List<Coin> coins = rateResponse.data;
                     List<CoinEntity> coinEntities = mapper.mapCoins(coins);
+
+                    database.openRealm();
                     database.saveCoins(coinEntities);
+                    database.closeRealm();
+
                     return coinEntities;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
