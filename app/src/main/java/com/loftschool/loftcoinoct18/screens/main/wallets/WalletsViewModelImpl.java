@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
@@ -25,6 +26,7 @@ import io.reactivex.disposables.Disposable;
 public class WalletsViewModelImpl extends WalletsViewModel {
 
     private SingleLiveEvent<Object> selectCurrency = new SingleLiveEvent<>();
+    private SingleLiveEvent<Object> scrollTONewWallet = new SingleLiveEvent<>();
     private MutableLiveData<Boolean> walletsVisible = new MutableLiveData<>();
     private MutableLiveData<Boolean> newWalletVisible = new MutableLiveData<>();
     private MutableLiveData<List<Wallet>> walletsItems = new MutableLiveData<>();
@@ -86,7 +88,7 @@ public class WalletsViewModelImpl extends WalletsViewModel {
 
     @Override
     public void onNewWalletClick() {
-        selectCurrency.postValue(new Object());
+        selectCurrency.setValue(new Object());
     }
 
     @Override
@@ -101,7 +103,9 @@ public class WalletsViewModelImpl extends WalletsViewModel {
                 database.saveTransaction(transactions);
                 return new Object();
             }
-        }).subscribe();
+        })
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .subscribe(o -> scrollTONewWallet.call());
 
         disposables.add(disposable);
     }
@@ -163,5 +167,10 @@ public class WalletsViewModelImpl extends WalletsViewModel {
     @Override
     public LiveData<List<Transaction>> transactions() {
         return transactionsItems;
+    }
+
+    @Override
+    public LiveData<Object> scrollToNewWallet() {
+        return scrollTONewWallet;
     }
 }

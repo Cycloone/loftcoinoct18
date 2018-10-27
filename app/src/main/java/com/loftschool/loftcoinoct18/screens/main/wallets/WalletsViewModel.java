@@ -34,4 +34,6 @@ public abstract class WalletsViewModel extends AndroidViewModel {
 
     public abstract LiveData<List<Transaction>> transactions();
 
+    public abstract LiveData<Object> scrollToNewWallet();
+
 }

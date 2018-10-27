@@ -1,6 +1,7 @@
 package com.loftschool.loftcoinoct18.screens.main.wallets;
 
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.graphics.Point;
@@ -136,6 +137,10 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
 
         viewModel.selectCurrency().observe(this, o -> {
             showCurrenciesBottomSheet();
+        });
+
+        viewModel.scrollToNewWallet().observe(this, o -> {
+            walletsPager.setCurrentItem(walletsPagerAdapter.getCount() - 1, true);
         });
 
     }
