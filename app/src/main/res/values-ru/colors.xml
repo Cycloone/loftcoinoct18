@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#191a29</color>
+    <color name="colorPrimaryDark">@color/colorPrimary</color>
+    <color name="colorAccent">#66688F</color>
+    <color name="primary_text_color">#ffffff</color>
+    <color name="secondary_text_color">#9c9eb9</color>
+
+    <color name="watermelon">#ff4465</color>
+    <color name="orange">#ff7416</color>
+    <color name="yellow">#f5ff30</color>
+    <color name="green">#3fe77b</color>
+    <color name="white">#ffffff</color>
+
+    <color name="red_accent200">#ff4465</color>
+    <color name="amber400">#f6ca1d</color>
+    <color name="grey_5">#9c9eb9</color>
+    <color name="grey_10">#66688f</color>
+    <color name="grey_20">#51526b</color>
+    <color name="grey_40">#3f415d</color>
+    <color name="grey_50">#313249</color>
+    <color name="grey_60">#2e2f47</color>
+    <color name="grey_80">#191a2a</color>
+    <color name="grey_100">#10101a</color>
+
+    <!--activity_main-->
+    <color name="color_bottom_navigation_icon">@color/primary_text_color</color>
+    <color name="color_bottom_navigation_text">@color/primary_text_color</color>
+    <!--activity_rate-->
+    <color name="rate_item_background_event">#212237</color>
+    <color name="rate_item_background_add">#19192a</color>
+    <color name="percent_change_up">#3de77b</color>
+    <color name="percent_change_down">#ff4464</color>
+    <color name="item_wallet_textview_textcolor">#000000</color>
+
+</resources>

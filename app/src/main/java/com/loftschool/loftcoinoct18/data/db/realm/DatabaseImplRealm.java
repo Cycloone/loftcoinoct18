@@ -1,6 +1,5 @@
 package com.loftschool.loftcoinoct18.data.db.realm;
 
-import com.loftschool.loftcoinoct18.data.api.model.Coin;
 import com.loftschool.loftcoinoct18.data.db.Database;
 import com.loftschool.loftcoinoct18.data.db.model.CoinEntity;
 import com.loftschool.loftcoinoct18.data.db.model.Transaction;
