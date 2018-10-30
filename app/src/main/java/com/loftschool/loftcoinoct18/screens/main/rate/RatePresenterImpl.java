@@ -7,6 +7,7 @@ import com.loftschool.loftcoinoct18.data.db.Database;
 import com.loftschool.loftcoinoct18.data.db.model.CoinEntityMapper;
 import com.loftschool.loftcoinoct18.data.model.Fiat;
 import com.loftschool.loftcoinoct18.data.prefs.Prefs;
+import com.loftschool.loftcoinoct18.job.JobHelper;
 
 import java.util.Objects;
 
@@ -24,18 +25,21 @@ public class RatePresenterImpl implements RatePresenter {
     private Database mainDatabase;
     private Database workerDatabase;
     private CoinEntityMapper mapper;
+    private JobHelper jobHelper;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
     @Nullable
     private RateView view;
 
-    public RatePresenterImpl(Api api, Prefs prefs, Database mainDatabase, Database workerDatabase, CoinEntityMapper mapper) {
+    public RatePresenterImpl(Api api, Prefs prefs, Database mainDatabase, Database workerDatabase,
+                             CoinEntityMapper mapper, JobHelper jobHelper) {
         this.api = api;
         this.prefs = prefs;
         this.mainDatabase = mainDatabase;
         this.workerDatabase = workerDatabase;
         this.mapper = mapper;
+        this.jobHelper = jobHelper;
     }
 
     @Override
@@ -125,5 +129,10 @@ public class RatePresenterImpl implements RatePresenter {
     public void onFiatCurrencySelected(Fiat currency) {
         prefs.setFiatCurrency(currency);
         loadRate(false);
+    }
+
+    @Override
+    public void onRateLongClick(String symbol) {
+        jobHelper.startSyncRateJob(symbol);
     }
 }
