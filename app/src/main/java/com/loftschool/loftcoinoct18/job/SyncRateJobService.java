@@ -1,10 +1,19 @@
 package com.loftschool.loftcoinoct18.job;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.loftschool.loftcoinoct18.App;
+import com.loftschool.loftcoinoct18.R;
 import com.loftschool.loftcoinoct18.data.api.Api;
 import com.loftschool.loftcoinoct18.data.db.Database;
 import com.loftschool.loftcoinoct18.data.db.model.CoinEntity;
@@ -12,6 +21,7 @@ import com.loftschool.loftcoinoct18.data.db.model.CoinEntityMapper;
 import com.loftschool.loftcoinoct18.data.db.model.QuoteEntity;
 import com.loftschool.loftcoinoct18.data.model.Fiat;
 import com.loftschool.loftcoinoct18.data.prefs.Prefs;
+import com.loftschool.loftcoinoct18.screens.main.MainActivity;
 import com.loftschool.loftcoinoct18.utils.CurrencyFormatter;
 
 import java.util.List;
@@ -24,6 +34,10 @@ public class SyncRateJobService extends JobService {
     public static final String EXTRA_SYMBOL = "symbol";
 
     public static final String TAG = "SyncRateJobService";
+
+    public static final String NOTIFICATION_CHANNEL_RATE_CHANGED = "RATE_CHANGED";
+
+    public static final int NOTIFICATION_ID_RATE_CHANGED = 10;
 
     private Api api;
     private Database database;
@@ -71,9 +85,6 @@ public class SyncRateJobService extends JobService {
                 );
     }
 
-    private void handleError(Throwable error) {
-
-    }
 
     private void handleCoins(List<CoinEntity> newCoins) {
         database.openRealm();
@@ -88,16 +99,59 @@ public class SyncRateJobService extends JobService {
 
             if (newQuote.price != oldQuote.price) {
                 Log.i(TAG, "Price is changed: ");
-                showRateChangedNotification(newCoin, newQuote.price - oldQuote.price, fiat);
+
+                double priceDiff = newQuote.price - oldQuote.price;
+
+                String priceDiffString;
+                String price = formatter.format(Math.abs(priceDiff), false);
+
+                if (priceDiff > 0) {
+                    priceDiffString = "+ " + price + " " + fiat.symbol;
+                } else {
+                    priceDiffString = "- " + price + " " + fiat.symbol;
+                }
+
+                showRateChangedNotification(newCoin, priceDiffString);
             } else {
                 Log.i(TAG, "Price not changed: ");
             }
         }
 
         database.saveCoins(newCoins);
+        database.closeRealm();
     }
 
-    private void showRateChangedNotification(CoinEntity newCoin, double v, Fiat fiat) {
+    private void handleError(Throwable error) {
+        Log.e(TAG, "Failure to sync", error);
+    }
+
+    private void showRateChangedNotification(CoinEntity newCoin, String priceDiff) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_RATE_CHANGED);
+
+        builder.setSmallIcon(R.drawable.ic_notification);
+        builder.setContentTitle(newCoin.name);
+        builder.setContentText(getString(R.string.notification_rate, priceDiff));
+        builder.setAutoCancel(true);
+        builder.setContentIntent(pendingIntent);
+
+        Notification notification = builder.build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_RATE_CHANGED,
+                    getString(R.string.notification_channel_rate),
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        notificationManager.notify(newCoin.symbol, NOTIFICATION_ID_RATE_CHANGED, notification);
 
     }
 
