@@ -26,5 +26,7 @@
     <string name="wallets_menu_item_new_wallet">New wallet</string>
 
     <string name="wallets_screen_title">Wallets</string>
+    <string name="notification_rate">Rate changed %s</string>
+    <string name="notification_channel_rate">Rate changes</string>
 
 </resources>
